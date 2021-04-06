@@ -25,9 +25,6 @@ namespace FlightManagerData.Models
         [Column(TypeName = "nvarchar(100)")]
         public string LastName { get; set; }
 
-        [Display(Name = "E-mail")]
-        [Column(TypeName = "nvarchar(100)")]
-        public string Mail { get; set; }
 
         [Column(TypeName = "nvarchar(10)")]
         public string Egn { get; set; }

@@ -14,8 +14,9 @@ namespace FlightManagerData.Models
         public int ReservationId { get; set; }
         public Flight Flight { get; set; }
         public List<Passenger> Passengers { get; set; }
-        public string  Mail { get; set; }
-      
-        
+
+        [Display(Name = "E-mail")]
+        [Column(TypeName = "nvarchar(100)")]
+        public string Mail { get; set; }
     }
 }
