@@ -18,5 +18,6 @@ namespace FlightManagerData.Models
         [Display(Name = "E-mail")]
         [Column(TypeName = "nvarchar(100)")]
         public string Mail { get; set; }
+        int a;
     }
 }
