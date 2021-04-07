@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlightManagerData;
 using FlightManagerData.Models;
+using FlightManager.Utilities;
 
 namespace FlightManager.Controllers
 {
@@ -19,6 +20,30 @@ namespace FlightManager.Controllers
             _context = context;
         }
 
+        public async Task<IActionResult> Login()
+        {
+            ViewData["result"] = "";
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string username,string password)
+        {
+            if (username==null ||password==null)
+            {
+                ViewData["result"] = "Type your username and password first!";
+                return View();
+            }
+            string hashedPassword = PasswordSecurity.ComputeSha256Hash(password);
+            var customer = await _context.Customers
+               .FirstOrDefaultAsync(m => m.Username == username && m.Password==hashedPassword);
+            if (customer == null)
+            {
+                ViewData["result"] = "Invalid username or password!";
+                return View();
+            }
+            return View();
+        }
         // GET: Customers
         public async Task<IActionResult> Index()
         {
@@ -58,6 +83,7 @@ namespace FlightManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                customer.Password = PasswordSecurity.ComputeSha256Hash(customer.Password);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

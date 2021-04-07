@@ -19,6 +19,10 @@ namespace FlightManagerData.Models
         [Column(TypeName = "nvarchar(100)")]
         public string Password { get; set; }
 
+        [NotMapped]
+        [Display(Name ="Confirm password")]
+        public string ConfirmPassword { get; set; }
+
         [Column(TypeName = "nvarchar(100)")]
         public string Mail { get; set; }
 
