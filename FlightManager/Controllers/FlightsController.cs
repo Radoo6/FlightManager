@@ -19,11 +19,35 @@ namespace FlightManager.Controllers
             _context = context;
         }
 
+
+
+
+
+
+
         // GET: Flights
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Flights.ToListAsync());
+            byte[] buffer = new byte[100];
+            if (HttpContext.Session.TryGetValue("username", out buffer))
+            {
+                return View(await _context.Flights.ToListAsync());
+            }
+            return RedirectToAction("Login", "Customers");
         }
+        //public IActionResult Index()
+        //{
+        //    byte[] buffer = new byte[100];
+
+        //    if (HttpContext.Session.TryGetValue("username", out buffer))
+        //    {
+        //        // ViewBag["name"] = Encoding.UTF8.GetString(buffer);
+        //        return View();
+        //    }
+        //    return RedirectToAction("Login", "Customers");
+
+
+        //}
 
         // GET: Flights/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -32,7 +56,7 @@ namespace FlightManager.Controllers
             {
                 return NotFound();
             }
-
+            HttpContext.Items["isAdmin"].ToString();
             var flight = await _context.Flights
                 .FirstOrDefaultAsync(m => m.FlightId == id);
             if (flight == null)
